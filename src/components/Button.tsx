@@ -18,11 +18,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]",
+          "group relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50",
           {
-            "bg-foreground text-background shadow-sm hover:bg-foreground/90":
+            "bg-foreground text-background shadow-md hover:bg-foreground/90 hover:shadow-lg hover:-translate-y-0.5":
               variant === "default",
-            "border border-border/60 bg-background hover:bg-secondary hover:text-foreground":
+            "border border-border/40 bg-background hover:bg-secondary hover:text-foreground hover:border-border/60 hover:shadow-sm":
               variant === "outline",
             "hover:bg-secondary hover:text-foreground": variant === "ghost",
             "text-primary underline-offset-4 hover:underline": variant === "link",
@@ -32,15 +32,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               variant === "destructive",
           },
           {
-            "h-10 px-4 py-2": size === "default",
-            "h-9 rounded-md px-3 text-xs": size === "sm",
-            "h-11 rounded-lg px-6": size === "lg",
-            "h-10 w-10": size === "icon",
+            "h-11 px-5 py-2.5": size === "default",
+            "h-9 rounded-lg px-3.5 text-xs": size === "sm",
+            "h-12 rounded-2xl px-8 text-base": size === "lg",
+            "h-11 w-11": size === "icon",
           },
           className
         )}
         {...props}
-      />
+      >
+        {/* Shine effect for default variant */}
+        {variant === "default" && (
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-background/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
+        )}
+        {props.children}
+      </button>
     );
   }
 );

@@ -49,8 +49,8 @@ export default function Register() {
             </Link>
           </FadeIn>
           <FadeIn delay={0.1} className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight">Join the directory.</h1>
-            <p className="text-sm text-primary-foreground/60">Manage your contacts in a clean, simple workspace.</p>
+            <h1 className="text-2xl font-bold tracking-tight leading-tight">Join the directory.</h1>
+            <p className="text-sm text-primary-foreground/50 max-w-[240px] mx-auto leading-relaxed">Manage your contacts in a clean, simple workspace.</p>
           </FadeIn>
         </div>
 
@@ -61,39 +61,40 @@ export default function Register() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
           >
-            <Link href="/" className="relative z-10 flex items-center drop-shadow-xl">
-              <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_20px_rgba(var(--secondary),0.5)]">Kontacts</span>
+            <Link href="/" className="relative z-10 flex items-center drop-shadow-2xl">
+              <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_25px_rgba(var(--secondary),0.4)]">Kontacts</span>
             </Link>
           </motion.div>
 
           <div className="relative z-10 my-auto max-w-lg">
-            <FadeUp delay={0.1} className="text-5xl font-bold tracking-tight leading-[1.05] mb-6">
-              <span>Join the<br />directory.</span>
+            <FadeUp delay={0.1} className="text-5xl font-bold tracking-tighter leading-[1] mb-6">
+              <span>Join the directory.</span>
             </FadeUp>
-            <FadeUp delay={0.2} className="text-xl text-primary-foreground/50 leading-relaxed max-w-md">
+            <FadeUp delay={0.2} className="text-xl text-primary-foreground/40 leading-relaxed max-w-sm font-medium">
               <span>Create an account to start managing your contacts in a clean, simple workspace.</span>
             </FadeUp>
           </div>
 
           <FadeUp delay={0.4}>
-            <p className="text-xs font-medium text-primary-foreground/30 tracking-wide uppercase">
+            <p className="text-xs font-bold text-primary-foreground/40 tracking-[0.2em] uppercase">
               Project &copy; {new Date().getFullYear()}
             </p>
           </FadeUp>
         </div>
 
         {/* Right — Form */}
-        <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 lg:px-12 bg-background">
+        <div className="flex flex-1 flex-col items-center justify-center px-6 py-8 lg:py-12 lg:px-16 bg-background relative overflow-y-auto">
           <div className="mx-auto w-full max-w-[360px] space-y-8">
             <FadeUp className="space-y-2">
               <h2 className="text-2xl font-bold tracking-tight lg:block hidden">Create your account</h2>
-              <p className="text-muted-foreground text-sm lg:block hidden">Enter your details below to get started.</p>
+              <p className="text-muted-foreground/80 text-sm lg:block hidden font-medium">Enter your details below to get started.</p>
             </FadeUp>
 
             <FadeUp delay={0.1}>
               <form onSubmit={handleRegister} className="space-y-4">
                 {error && (
-                  <FadeIn className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive font-medium">
+                  <FadeIn className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive font-bold flex items-center gap-2">
+                    <div className="h-1.5 w-1.5 rounded-full bg-destructive animate-pulse" />
                     {error}
                   </FadeIn>
                 )}

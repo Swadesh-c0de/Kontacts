@@ -19,7 +19,7 @@ const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1];
 // FadeUp
 // Replaces every .animate-fade-up usage. Triggers once on viewport entry.
 const fadeUpVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0, y: 8 },
   visible: (delay: number = 0) => ({
     opacity: 1,
     y: 0,
@@ -49,7 +49,7 @@ export const FadeUp = memo(function FadeUp({
       variants={fadeUpVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "0px" }}
       custom={delay}
     >
       {children}
@@ -81,19 +81,24 @@ const staggerItemVariants: Variants = {
 interface StaggerContainerProps {
   children: React.ReactNode;
   className?: string;
+  trigger?: "whileInView" | "animate";
 }
 
 export const StaggerContainer = memo(function StaggerContainer({
   children,
   className,
+  trigger = "whileInView",
 }: StaggerContainerProps) {
+  const animationProps = trigger === "whileInView" 
+    ? { whileInView: "visible", viewport: { once: true, margin: "-10px" } }
+    : { animate: "visible" };
+
   return (
     <motion.div
       className={className}
       variants={staggerContainerVariants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-20px" }}
+      {...animationProps}
     >
       {children}
     </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo, useDeferredValue } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { Button } from "@/components/Button";
@@ -83,11 +83,19 @@ export default function Dashboard() {
   const openEdit = (c: Contact) => { setActiveContact(c); setForm({ name: c.name, email: c.email, phone: c.phone }); setEditOpen(true); };
   const openDelete = (c: Contact) => { setActiveContact(c); setDeleteOpen(true); };
 
-  const filtered = contacts.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.email.toLowerCase().includes(search.toLowerCase()) ||
-    c.phone.includes(search)
-  );
+  // Deferred search: input stays snappy, card list catches up
+  const deferredSearch = useDeferredValue(search);
+  const isSearching = search !== deferredSearch;
+
+  const filtered = useMemo(() => {
+    if (!deferredSearch) return contacts;
+    const q = deferredSearch.toLowerCase();
+    return contacts.filter((c) =>
+      c.name.toLowerCase().includes(q) ||
+      c.email.toLowerCase().includes(q) ||
+      c.phone.includes(deferredSearch)
+    );
+  }, [contacts, deferredSearch]);
 
   if (loading) {
     return (
@@ -167,8 +175,8 @@ export default function Dashboard() {
               </div>
 
               <div className="hidden sm:flex items-center h-10 px-3 rounded-xl border border-border/40 glass text-xs tabular-nums text-muted-foreground transition-colors duration-300">
-                <span className="font-bold text-foreground mr-1">{search ? filtered.length : contacts.length}</span>
-                <span className="opacity-60">{search ? "found" : "total"}</span>
+                <span className="font-bold text-foreground mr-1">{deferredSearch ? filtered.length : contacts.length}</span>
+                <span className="opacity-60">{deferredSearch ? "found" : "total"}</span>
               </div>
 
               <Button onClick={() => { setForm({ name: "", email: "", phone: "" }); setAddOpen(true); }} size="default" className="h-10 rounded-xl px-4">
@@ -186,29 +194,22 @@ export default function Dashboard() {
           )}
 
           {/* Content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={view}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.15, ease: [0.23, 1, 0.32, 1] }}
-            >
-              {filtered.length === 0 ? (
-                <FadeUp className="flex flex-col items-center justify-center py-28 text-center">
-                  <div className="h-12 w-12 rounded-xl bg-secondary flex items-center justify-center mb-4">
-                    <User className="h-5 w-5 text-muted-foreground" />
-                  </div>
-                  <h3 className="font-semibold text-base mb-1">No contacts found</h3>
-                  <p className="text-muted-foreground text-sm max-w-xs">
-                    {contacts.length === 0 ? "Add your first contact to get started." : "Try a different search term."}
-                  </p>
-                </FadeUp>
-              ) : view === "grid" ? (
-                <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-                  {filtered.map((c, idx) => (
-                    <StaggerItem key={c._id}>
-                      <div className="group relative rounded-[1.5rem] border border-border/40 glass p-4 sm:p-5 transition-all duration-500 hover:bg-secondary/10 hover:border-border/60 shadow-sm hover:shadow-md hover:-translate-y-1 flex flex-col overflow-hidden will-change-transform h-full animate-float-up" style={{ animationDelay: `${0.2 + idx * 0.05}s` }}>
+          <div className={`transition-opacity duration-150 ${isSearching ? "opacity-60" : "opacity-100"}`}>
+            {filtered.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-28 text-center">
+                <div className="h-12 w-12 rounded-xl bg-secondary flex items-center justify-center mb-4">
+                  <User className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <h3 className="font-semibold text-base mb-1">No contacts found</h3>
+                <p className="text-muted-foreground text-sm max-w-xs">
+                  {contacts.length === 0 ? "Add your first contact to get started." : "Try a different search term."}
+                </p>
+              </div>
+            ) : view === "grid" ? (
+              <StaggerContainer key={`grid-${deferredSearch}`} trigger="animate" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+                {filtered.map((c) => (
+                  <StaggerItem key={c._id}>
+                    <div className="group relative rounded-[1.5rem] border border-border/40 glass p-4 sm:p-5 transition-all duration-300 hover:bg-secondary/10 hover:border-border/60 shadow-sm hover:shadow-md hover:-translate-y-1 flex flex-col overflow-hidden h-full">
                         <div className="flex items-start justify-between mb-4">
                           <div className="h-10 w-10 rounded-full bg-secondary text-foreground flex items-center justify-center text-sm font-bold tracking-tight ring-1 ring-inset ring-border/80 group-hover:bg-foreground group-hover:text-background transition-all duration-500 shadow-sm">
                             {c.name.charAt(0).toUpperCase()}
@@ -255,12 +256,12 @@ export default function Dashboard() {
                       </div>
                     </StaggerItem>
                   ))}
-                </StaggerContainer>
-              ) : (
-                <StaggerContainer className="flex flex-col gap-3">
-                  {filtered.map((c) => (
-                    <StaggerItem key={c._id}>
-                      <div className="group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-2 sm:pr-4 rounded-[1.5rem] sm:rounded-full border border-border/40 bg-background hover:bg-secondary/10 hover:border-border/60 shadow-sm hover:shadow-md transition-all duration-300 will-change-transform">
+              </StaggerContainer>
+            ) : (
+              <StaggerContainer key={`list-${deferredSearch}`} trigger="animate" className="flex flex-col gap-3">
+                {filtered.map((c) => (
+                  <StaggerItem key={c._id}>
+                      <div className="group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-2 sm:pr-4 rounded-[1.5rem] sm:rounded-full border border-border/40 bg-background hover:bg-secondary/10 hover:border-border/60 shadow-sm hover:shadow-md transition-all duration-300">
                         <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1">
                           <div className="h-14 w-14 sm:h-12 sm:w-12 shrink-0 rounded-full bg-secondary text-foreground flex items-center justify-center text-lg sm:text-base font-bold tracking-tight ring-1 ring-inset ring-border/80 group-hover:bg-foreground group-hover:text-background transition-colors duration-500">
                             {c.name.charAt(0).toUpperCase()}
@@ -299,12 +300,11 @@ export default function Dashboard() {
                           </div>
                         </div>
                       </div>
-                    </StaggerItem>
-                  ))}
-                </StaggerContainer>
-              )}
-            </motion.div>
-          </AnimatePresence>
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            )}
+          </div>
         </div>
 
         {/* Modals — all use AnimatePresence + ScaleIn for spring physics */}

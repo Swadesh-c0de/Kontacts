@@ -40,10 +40,10 @@ export function ThemeToggle() {
     buttonElement.animate(
       [
         { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(128,128,128,0)" },
-        { transform: "scale(1.4)", boxShadow: "0 0 20px 10px rgba(128,128,128,0.2)" },
+        { transform: "scale(1.2)", boxShadow: "0 0 15px 5px rgba(128,128,128,0.1)" },
         { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(128,128,128,0)" }
       ],
-      { duration: 400, easing: "cubic-bezier(0.23, 1, 0.32, 1)" }
+      { duration: 300, easing: "cubic-bezier(0.4, 0, 0.2, 1)" }
     );
 
     const transition = document.startViewTransition(() => {
@@ -60,12 +60,12 @@ export function ThemeToggle() {
       if (shockwave) {
         shockwave.animate(
           [
-            { transform: "scale(0)", opacity: 1, borderWidth: "4px" },
+            { transform: "scale(0)", opacity: 0.5, borderWidth: "2px" },
             { transform: `scale(${(endRadius * 2) / 40})`, opacity: 0, borderWidth: "1px" }
           ],
           {
-            duration: 900,
-            easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+            duration: 500,
+            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
           }
         );
       }
@@ -75,8 +75,8 @@ export function ThemeToggle() {
           clipPath: clipPath,
         },
         {
-          duration: 900,
-          easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+          duration: 500,
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
           pseudoElement: "::view-transition-new(root)",
         }
       );

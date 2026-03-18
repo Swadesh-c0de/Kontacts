@@ -3,6 +3,7 @@ import { Inter, Libre_Baskerville, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Navbar from "@/components/Navbar";
+import type { Viewport } from "next";
 
 const inter = Inter({
   subsets: ["latin"] as const,
@@ -23,6 +24,18 @@ const dancingScript = Dancing_Script({
   variable: "--font-cursive",
   display: "swap",
 });
+
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f9fafb" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f12" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "Kontacts — Personal Contacts Manager",

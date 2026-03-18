@@ -69,17 +69,16 @@ export default function Profile() {
 
           {/* Header */}
           <FadeUp className="mb-8 text-center flex flex-col items-center">
-            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-[1.1] mb-2">
-              Your<br />
-              <span className="font-cursive font-normal">Profile</span>
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-[1] mb-2">
+              Your <span className="font-cursive font-normal text-primary drop-shadow-sm">Profile</span>
             </h1>
-            <p className="text-muted-foreground/80 max-w-xs leading-relaxed text-xs sm:text-sm">
+            <p className="text-muted-foreground/80 max-w-xs leading-relaxed text-sm font-medium">
               Account details and session management.
             </p>
           </FadeUp>
 
           {/* Identity Card */}
-          <FadeUp delay={0.06} className="rounded-2xl border border-border/40 bg-secondary/5 p-6 sm:p-8 mb-4 text-center sm:text-left will-change-transform group transition-all duration-300 hover:bg-secondary/10">
+          <FadeUp delay={0.06} className="rounded-2xl border border-border/40 bg-secondary/5 p-6 sm:p-8 mb-4 text-center sm:text-left group transition-all duration-300 hover:bg-secondary/10">
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-md ring-2 ring-background">
                 <span className="text-3xl sm:text-4xl font-bold tracking-tighter">{initial}</span>
@@ -97,7 +96,7 @@ export default function Profile() {
           </FadeUp>
 
           {/* Details — staggered rows */}
-          <FadeUp delay={0.12} className="rounded-[2.5rem] border border-border/40 bg-background overflow-hidden mb-6 shadow-sm will-change-transform">
+          <FadeUp delay={0.12} className="rounded-[2.5rem] border border-border/40 bg-background overflow-hidden mb-6 shadow-sm">
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/20">
               {profileDetails.map((item, idx) => (
                 <StaggerItem key={item.label}>

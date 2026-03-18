@@ -45,13 +45,13 @@ export default function Login() {
         {/* Mobile/Tablet Header */}
         <div className="lg:hidden flex flex-col items-center justify-center py-12 px-6 bg-primary text-primary-foreground text-center space-y-4">
           <FadeIn delay={0}>
-            <Link href="/" className="flex items-center drop-shadow-lg">
-              <span className="text-5xl font-cursive font-medium -ml-1 text-secondary drop-shadow-[0_0_15px_rgba(var(--secondary),0.5)]">Kontacts</span>
+            <Link href="/" className="flex items-center drop-shadow-2xl">
+              <span className="text-5xl font-cursive font-medium -ml-1 text-secondary drop-shadow-[0_0_20px_rgba(var(--secondary),0.4)]">Kontacts</span>
             </Link>
           </FadeIn>
           <FadeIn delay={0.1} className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight">Simply organize your network.</h1>
-            <p className="text-sm text-primary-foreground/60">A minimal way to manage your contacts with speed.</p>
+            <h1 className="text-2xl font-bold tracking-tight leading-tight">Simply organize<br />your network.</h1>
+            <p className="text-sm text-primary-foreground/50 max-w-[240px] mx-auto leading-relaxed">A minimal and efficient way to manage your contacts with speed.</p>
           </FadeIn>
         </div>
 
@@ -62,39 +62,40 @@ export default function Login() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
           >
-            <Link href="/" className="relative z-10 flex items-center drop-shadow-xl">
-              <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_20px_rgba(var(--secondary),0.5)]">Kontacts</span>
+            <Link href="/" className="relative z-10 flex items-center drop-shadow-2xl">
+              <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_25px_rgba(var(--secondary),0.4)]">Kontacts</span>
             </Link>
           </motion.div>
 
           <div className="relative z-10 my-auto max-w-lg">
-            <FadeUp delay={0.1} className="text-5xl font-bold tracking-tight leading-[1.05] mb-6">
+            <FadeUp delay={0.1} className="text-5xl font-bold tracking-tighter leading-[1] mb-6">
               <span>Simply organize<br />your network.</span>
             </FadeUp>
-            <FadeUp delay={0.2} className="text-xl text-primary-foreground/50 leading-relaxed max-w-md">
+            <FadeUp delay={0.2} className="text-xl text-primary-foreground/40 leading-relaxed max-w-sm font-medium">
               <span>A minimal and efficient way to manage your personal and professional contacts with speed.</span>
             </FadeUp>
           </div>
 
           <FadeUp delay={0.4}>
-            <p className="text-xs font-medium text-primary-foreground/30 tracking-wide uppercase">
+            <p className="text-xs font-bold text-primary-foreground/40 tracking-[0.2em] uppercase">
               Project &copy; {new Date().getFullYear()}
             </p>
           </FadeUp>
         </div>
 
         {/* Right — Form */}
-        <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 lg:px-12 bg-background">
+        <div className="flex flex-1 flex-col items-center justify-center px-6 py-8 lg:py-12 lg:px-16 bg-background relative overflow-y-auto">
           <div className="mx-auto w-full max-w-[360px] space-y-8">
             <FadeUp className="space-y-2">
               <h2 className="text-2xl font-bold tracking-tight lg:block hidden">Welcome back</h2>
-              <p className="text-muted-foreground text-sm lg:block hidden">Enter your credentials to access your directory.</p>
+              <p className="text-muted-foreground/80 text-sm lg:block hidden font-medium">Enter your credentials to access your directory.</p>
             </FadeUp>
 
             <FadeUp delay={0.1}>
               <form onSubmit={handleLogin} className="space-y-4">
                 {error && (
-                  <FadeIn className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive font-medium">
+                  <FadeIn className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive font-bold flex items-center gap-2">
+                    <div className="h-1.5 w-1.5 rounded-full bg-destructive animate-pulse" />
                     {error}
                   </FadeIn>
                 )}
