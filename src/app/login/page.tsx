@@ -64,7 +64,7 @@ export default function Login() {
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
           >
             <Link href="/" className="relative z-10 flex items-center hover:scale-105 transition-transform duration-500 drop-shadow-xl">
-              <span className="text-4xl font-black tracking-tighter">Link</span>
+              <span className="text-4xl font-black tracking-tighter">Log</span>
               <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_20px_rgba(var(--secondary),0.5)]">Book</span>
             </Link>
           </motion.div>
