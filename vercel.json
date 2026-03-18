@@ -2,13 +2,9 @@
   "framework": "nextjs",
   "buildCommand": "next build",
   "outputDirectory": ".next",
-  "env": [
-    {
-      "key": "NEXT_PUBLIC_API_URL",
-      "value": "https://your-api-url.com",
-      "description": "Public API URL for the application"
-    }
-  ],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://your-api-url.com"
+  },
   "headers": [
     {
       "source": "/(.*)",
