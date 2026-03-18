@@ -94,8 +94,7 @@ export default function Dashboard() {
       <div className="min-h-screen flex flex-col items-center justify-center">
         <FadeIn>
           <div className="flex items-center mb-6">
-            <span className="text-4xl font-black tracking-tighter">Log</span>
-            <span className="text-5xl font-cursive font-medium -ml-0.5 text-primary">Book</span>
+            <span className="text-5xl font-cursive font-medium -ml-0.5 text-primary">Kontacts</span>
           </div>
           <div className="flex gap-1.5 justify-center">
             {[0, 1, 2].map((i) => (

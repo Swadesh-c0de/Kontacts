@@ -25,7 +25,7 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: "LinkBook — Personal Contacts Manager",
+  title: "Kontacts — Personal Contacts Manager",
   description: "A clean and simple way to manage your personal contacts.",
 };
 

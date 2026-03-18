@@ -1,11 +1,11 @@
-# **LinkBook**
+# **Kontacts**
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-ff69b4?style=flat-square&logo=framer)](https://framer.com/motion)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 
-A minimal, high-performance contact management dashboard. Built for elegance, **LinkBook** provides a fluid, compact interface for managing your professional and personal network.
+A minimal, high-performance contact management dashboard. Built for elegance, **Kontacts** provides a fluid, compact interface for managing your professional and personal network.
 
 ---
 
@@ -20,7 +20,7 @@ A minimal, high-performance contact management dashboard. Built for elegance, **
 
 ### Design Philosophy: "Compact & Fluid"
 
-LinkBook is inspired by high-end design portfolios. It prioritizes:
+Kontacts is inspired by high-end design portfolios. It prioritizes:
 1. **Density**: Reducing white space without sacrificing clarity—making it perfect for power users.
 2. **Smoothness**: Using `cubic-bezier(0.23, 1, 0.32, 1)` easing across all transitions for a "buttery" feel.
 3. **Consistency**: A unified Glassmorphism aesthetic using subtle blurs and border-transparencies.
@@ -53,8 +53,8 @@ src/
 
 1. **Clone & Install:**
    ```bash
-   git clone https://github.com/Swadesh-c0de/LinkBook.git
-   cd LinkBook
+   git clone https://github.com/Swadesh-c0de/Kontacts.git
+   cd Kontacts
    npm install
    ```
 
@@ -71,5 +71,5 @@ src/
 
 ---
 
-**[Visit Live App →](https://linkbook.vercel.app)**  
+**[Visit Live App →](https://kontacts.vercel.app)**  
 **[Backend Repository →](https://github.com/Swadesh-c0de/contacts-management-system-backend)**

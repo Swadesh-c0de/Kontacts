@@ -86,8 +86,7 @@ export default function Navbar() {
 
           <Link href="/" className="flex items-center group transition-transform duration-300 hover:scale-105 active:scale-95" onClick={() => setNavigating(true)}>
             <div className="relative flex flex-row items-center">
-              <span className={`font-black tracking-tighter leading-none transition-all duration-500 ${scrolled ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl"}`}>Log</span>
-              <span className={`font-cursive font-medium -ml-0.5 text-primary leading-none transition-all duration-500 ${scrolled ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"}`}>Book</span>
+              <span className={`font-cursive font-medium -ml-0.5 text-primary leading-none transition-all duration-500 ${scrolled ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"}`}>Kontacts</span>
             </div>
           </Link>
 
