@@ -160,9 +160,9 @@ export default function Dashboard() {
           </div>
 
           {/* Toolbar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 mb-8 animate-float-up" style={{ animationDelay: '0.1s' }}>
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-2 mb-8 animate-float-up" style={{ animationDelay: '0.1s' }}>
 
-            <div className="relative flex-1 group w-full sm:max-w-sm">
+            <div className="relative flex-1 group w-full md:max-w-sm">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/30 group-focus-within:text-foreground transition-colors duration-300" />
               <input
                 className="w-full h-11 glass border-border/40 rounded-2xl pl-10 pr-10 text-sm placeholder:text-muted-foreground/20 focus:outline-none focus:border-foreground/20 focus:bg-secondary/40 transition-all duration-300 shadow-sm"
@@ -210,7 +210,7 @@ export default function Dashboard() {
                 </button>
               </div>
 
-              <div className="hidden sm:flex h-10 items-center gap-1 rounded-[1.25rem] border border-border/40 bg-secondary/30 p-1 ml-1">
+              <div className="hidden md:flex h-10 items-center gap-1 rounded-[1.25rem] border border-border/40 bg-secondary/30 p-1 ml-1">
                 <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/40 px-2">Sort</span>
                 <button
                   onClick={() => setSortBy("name")}
@@ -227,7 +227,7 @@ export default function Dashboard() {
               </div>
 
               {/* Mobile Sort Toggle */}
-              <div className="sm:hidden flex items-center justify-center">
+              <div className="md:hidden flex items-center justify-center">
                 <button
                   onClick={() => setSortBy(sortBy === "name" ? "email" : "name")}
                   className="h-10 px-4 flex items-center gap-2 rounded-xl border border-border/40 bg-secondary/30 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground active:scale-95 transition-all shadow-sm hover:border-border/60 hover:text-foreground"
@@ -238,7 +238,7 @@ export default function Dashboard() {
                 </button>
               </div>
 
-              <div className="hidden sm:flex items-center h-10 px-4 rounded-[1.25rem] border border-border/40 bg-secondary/30 text-xs tabular-nums text-muted-foreground transition-colors duration-300 ml-1">
+              <div className="hidden md:flex items-center h-10 px-4 rounded-[1.25rem] border border-border/40 bg-secondary/30 text-xs tabular-nums text-muted-foreground transition-colors duration-300 ml-1">
                 <span className="font-bold text-foreground mr-1.5">
                   {filtered.length > 0 ? `${(currentPage - 1) * CONTACTS_PER_PAGE + 1}-${Math.min(currentPage * CONTACTS_PER_PAGE, filtered.length)}` : "0"}
                 </span>
@@ -247,7 +247,7 @@ export default function Dashboard() {
 
               <Button onClick={() => { setForm({ name: "", email: "", phone: "" }); setAddOpen(true); setFormError(null); }} size="default" className="h-10 rounded-[1.25rem] px-5 ml-1 flex items-center gap-2 group">
                 <Plus className="h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
-                <span className="hidden sm:inline text-xs font-bold">New Contact</span>
+                <span className="hidden md:inline text-xs font-bold">New Contact</span>
               </Button>
             </div>
           </div>

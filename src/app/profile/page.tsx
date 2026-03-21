@@ -196,53 +196,67 @@ export default function Profile() {
             </StaggerContainer>
           </FadeUp>
 
-          {/* Action Buttons */}
-          <FadeUp delay={0.15} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <button
-              onClick={openEdit}
-              className="flex flex-col items-center justify-center p-6 rounded-3xl border border-border/40 bg-background/50 hover:bg-secondary/20 hover:border-border/60 transition-all duration-300 shadow-sm hover:shadow-md group active:scale-95"
-            >
-              <div className="h-10 w-10 rounded-full bg-secondary/80 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                <Pencil className="h-4 w-4" />
-              </div>
-              <span className="font-bold text-sm">Edit Profile</span>
-            </button>
-            <button
-              onClick={() => { setPasswordOpen(true); setError(null); setSuccess(null); setFormError(null); }}
-              className="flex flex-col items-center justify-center p-6 rounded-3xl border border-border/40 bg-background/50 hover:bg-secondary/20 hover:border-border/60 transition-all duration-300 shadow-sm hover:shadow-md group active:scale-95"
-            >
-              <div className="h-10 w-10 rounded-full bg-secondary/80 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                <Key className="h-4 w-4" />
-              </div>
-              <span className="font-bold text-sm">Change Password</span>
-            </button>
-            <button
-              onClick={() => { setDeleteOpen(true); setError(null); setSuccess(null); setFormError(null); }}
-              className="flex flex-col items-center justify-center p-6 rounded-3xl border border-destructive/20 bg-destructive/5 hover:bg-destructive/10 hover:border-destructive/30 transition-all duration-300 shadow-sm hover:shadow-md group active:scale-95 text-destructive"
-            >
-              <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                <Trash2 className="h-4 w-4" />
-              </div>
-              <span className="font-bold text-sm">Delete Account</span>
-            </button>
-          </FadeUp>
+          {/* Main Actions */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <FadeUp delay={0.15} className="h-full">
+              <button
+                onClick={openEdit}
+                className="w-full h-full flex flex-col items-center justify-center p-6 rounded-3xl border border-border/40 bg-background/50 hover:bg-secondary/20 hover:border-border/60 transition-all duration-300 shadow-sm hover:shadow-md group active:scale-95"
+              >
+                <div className="h-10 w-10 rounded-full bg-secondary/80 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <Pencil className="h-4 w-4" />
+                </div>
+                <span className="font-bold text-sm">Edit Profile</span>
+              </button>
+            </FadeUp>
+            <FadeUp delay={0.18} className="h-full">
+              <button
+                onClick={() => { setPasswordOpen(true); setError(null); setSuccess(null); setFormError(null); }}
+                className="w-full h-full flex flex-col items-center justify-center p-6 rounded-3xl border border-border/40 bg-background/50 hover:bg-secondary/20 hover:border-border/60 transition-all duration-300 shadow-sm hover:shadow-md group active:scale-95"
+              >
+                <div className="h-10 w-10 rounded-full bg-secondary/80 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <Key className="h-4 w-4" />
+                </div>
+                <span className="font-bold text-sm">Change Password</span>
+              </button>
+            </FadeUp>
+          </div>
 
-          {/* Sign Out */}
-          <FadeUp delay={0.18} className="rounded-3xl border border-border/40 bg-secondary/5 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm border-dashed">
-            <div className="text-center sm:text-left">
-              <h3 className="font-bold text-base tracking-tight mb-1">Sign out</h3>
-              <p className="text-sm text-muted-foreground opacity-80">Securely end your session on this device.</p>
-            </div>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={handleLogout}
-              className="rounded-2xl px-6 h-12 border-border/40 hover:bg-foreground hover:text-background transition-all duration-300"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign Out
-            </Button>
-          </FadeUp>
+          {/* Secondary / Destructive Actions */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <FadeUp delay={0.21} className="h-full">
+              <button
+                onClick={() => { setDeleteOpen(true); setError(null); setSuccess(null); setFormError(null); }}
+                className="w-full flex items-center justify-between p-5 rounded-[2rem] border border-destructive/10 bg-destructive/[0.02] hover:bg-destructive/[0.05] hover:border-destructive/20 transition-all duration-300 shadow-sm group active:scale-[0.98] text-destructive/80 hover:text-destructive"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-2xl bg-destructive/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Trash2 className="h-4 w-4" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-bold text-sm">Delete Account</p>
+                    <p className="text-[10px] opacity-60 font-medium uppercase tracking-wider mt-0.5">Permanent action</p>
+                  </div>
+                </div>
+              </button>
+            </FadeUp>
+            <FadeUp delay={0.24} className="h-full">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-between p-5 rounded-[2rem] border border-border/40 bg-secondary/10 hover:bg-secondary/20 hover:border-border/60 transition-all duration-300 shadow-sm group active:scale-[0.98]"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-2xl bg-foreground/5 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <LogOut className="h-4 w-4" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-bold text-sm text-foreground">Sign Out</p>
+                    <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-0.5">End session</p>
+                  </div>
+                </div>
+              </button>
+            </FadeUp>
+          </div>
 
         </div>
 
