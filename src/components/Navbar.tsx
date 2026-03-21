@@ -66,7 +66,7 @@ export default function Navbar() {
       <div className={`fixed top-0 inset-x-0 h-0.5 bg-foreground z-[100] transition-transform duration-1000 origin-left ${navigating ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"}`} />
 
       <motion.header
-        className="vt-navbar fixed top-4 sm:top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
+        className="fixed top-4 sm:top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
         initial={{ opacity: 0, y: -16 }}
         animate={{
           opacity: isVisible ? 1 : 0,
@@ -97,7 +97,7 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setNavigating(true)}
                   className={`relative flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.95] ${isActive
-                    ? "bg-foreground text-background shadow-lg shadow-foreground/20"
+                    ? "bg-foreground text-background"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                     }`}
                 >
@@ -107,7 +107,7 @@ export default function Navbar() {
                     <motion.div
                       layoutId="active-nav-glow"
                       className="absolute inset-0 rounded-2xl bg-primary/10 -z-10 blur-sm"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
                     />
                   )}
                 </Link>
@@ -140,12 +140,13 @@ export default function Navbar() {
 
       {/* Mobile Bottom Nav */}
       <motion.div
-        className="vt-bottom-nav md:hidden fixed bottom-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
+        className="md:hidden fixed bottom-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none will-change-transform"
+        style={{ transform: "translateZ(0)" }}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1], delay: 0.15 }}
       >
-        <div className={`flex items-center justify-around w-full max-w-sm p-1.5 transition-all duration-500 ease-[cubic-bezier(0.2,1,0.3,1)] pointer-events-auto rounded-[2rem] bg-background/80 backdrop-blur-md border border-border/40 shadow-md ${scrolled ? "ring-1 ring-foreground/5 scale-[0.98]" : "scale-100"}`}>
+        <div className={`flex items-center justify-around w-full max-w-sm p-1.5 transition-all duration-500 ease-[cubic-bezier(0.2,1,0.3,1)] pointer-events-auto rounded-[2rem] bg-background/80 backdrop-blur-md border border-border/40 shadow-md ${scrolled ? "ring-1 ring-foreground/5" : ""}`}>
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;

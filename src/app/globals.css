@@ -157,6 +157,7 @@
   background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
 }
+
 ::-moz-selection {
   background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
@@ -182,29 +183,15 @@
   z-index: 9999;
 }
 
-.vt-navbar {
-  view-transition-name: navbar;
-}
-
-.vt-bottom-nav {
-  view-transition-name: bottom-nav;
-}
-
-::view-transition-group(navbar),
-::view-transition-group(bottom-nav),
 ::view-transition-group(noise) {
   animation: none;
   z-index: 100;
 }
 
-::view-transition-old(navbar),
-::view-transition-old(bottom-nav),
 ::view-transition-old(noise) {
   display: none;
 }
 
-::view-transition-new(navbar),
-::view-transition-new(bottom-nav),
 ::view-transition-new(noise) {
   animation: none;
 }

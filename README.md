@@ -12,9 +12,13 @@ A minimal, high-performance contact management dashboard. Built for elegance, **
 ### Key Features
 
 - **Full CRUD Management**: Seamlessly add, view, edit, and delete contacts with instant state updates.
-- **Smart Filtering**: Ultra-fast search bar using real-time local filtering for immediate results.
-- **Mobile First**: Fully responsive architecture optimized for low-latency scrolling and touch interactions.
-- **Theme Toggle**: Automatic theme switching between light and dark mode with a smooth transition effect.
+- **Smart Filtering & Sorting**: Ultra-fast search bar using `useDeferredValue` and a multi-sort engine (Name/Email) for instant organization.
+- **Search Experience**: Professional search loading indicators, including a subtle spinner and a pulsing progress bar.
+- **Smart Pagination**: A smooth, responsive, and monochromatic pagination system to navigate long contact lists with a modern "Page X of Y" counter.
+- **Complete Profile Control**: Dedicated profile management for updating credentials, changing passwords, and secure account deletion with integrated modal experiences.
+- **Resilient Networking**: Automatic rate-limit detection and gracefully handled backend validations across all forms.
+- **Mobile First**: Fully responsive architecture optimized for low-latency scrolling and touch interactions, featuring dual-pagination for easy mobile navigation.
+- **Theme Toggle**: Automatic theme switching between light and dark mode with a smooth glassmorphic transition.
 
 ---
 

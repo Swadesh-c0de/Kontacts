@@ -10,13 +10,14 @@ import { GuestGuard } from "@/components/AuthGuard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { FadeUp, FadeIn } from "@/components/motion";
 import { motion } from "framer-motion";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -24,11 +25,13 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setSuccess("");
     try {
       await api.post("/users/register", { username, email, password });
-      router.push("/login");
-    } catch {
-      setError("Registration failed. Username or email may already be in use.");
+      setSuccess("Account created successfully! Redirecting...");
+      setTimeout(() => router.push("/login"), 1500);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || "Registration failed. Username or email may already be in use.");
     } finally {
       setLoading(false);
     }
@@ -93,9 +96,15 @@ export default function Register() {
             <FadeUp delay={0.1}>
               <form onSubmit={handleRegister} className="space-y-4">
                 {error && (
-                  <FadeIn className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive font-bold flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-destructive animate-pulse" />
+                  <FadeIn className="rounded-lg border border-border/60 bg-secondary/80 px-4 py-3 text-sm text-foreground font-bold flex items-center gap-2.5 shadow-sm">
+                    <AlertCircle className="h-4 w-4 text-muted-foreground" />
                     {error}
+                  </FadeIn>
+                )}
+                {success && (
+                  <FadeIn className="rounded-lg border border-border/40 bg-secondary/40 px-4 py-3 text-sm text-muted-foreground font-bold flex items-center gap-2.5 shadow-sm">
+                    <CheckCircle2 className="h-4 w-4 opacity-60" />
+                    {success}
                   </FadeIn>
                 )}
 
