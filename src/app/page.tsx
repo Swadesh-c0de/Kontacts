@@ -9,6 +9,7 @@ import { AuthGuard } from "@/components/AuthGuard";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeUp, StaggerContainer, StaggerItem, ScaleIn, FadeIn } from "@/components/motion";
 import { Plus, Search, Mail, Phone, Loader2, User, X, Pencil, Trash2, LayoutGrid, List, AlertCircle, ArrowUpDown } from "lucide-react";
+import { Pagination } from "@/components/Pagination";
 
 interface Contact {
   _id: string;
@@ -376,60 +377,11 @@ export default function Dashboard() {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 animate-float-up" style={{ animationDelay: '0.2s' }}>
-              <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40 hidden sm:block">
-                Page {currentPage} of {totalPages}
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="h-10 px-4 rounded-xl border border-border/40 bg-secondary/30 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground disabled:opacity-30 disabled:pointer-events-none active:scale-95 transition-all hover:border-border/60 hover:text-foreground"
-                >
-                  Prev
-                </button>
-
-                <div className="flex items-center gap-1 mx-2">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                    // Show current page, first, last, and pages around current
-                    if (
-                      page === 1 ||
-                      page === totalPages ||
-                      (page >= currentPage - 1 && page <= currentPage + 1)
-                    ) {
-                      return (
-                        <button
-                          key={page}
-                          onClick={() => setCurrentPage(page)}
-                          className={`h-10 w-10 rounded-xl text-xs font-bold transition-all duration-300 ${currentPage === page ? "bg-foreground text-background shadow-lg scale-110" : "text-muted-foreground hover:bg-secondary/50"}`}
-                        >
-                          {page}
-                        </button>
-                      );
-                    }
-                    if (page === currentPage - 2 || page === currentPage + 2) {
-                      return <span key={page} className="px-1 text-muted-foreground/30">...</span>;
-                    }
-                    return null;
-                  })}
-                </div>
-
-                <button
-                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                  className="h-10 px-4 rounded-xl border border-border/40 bg-secondary/30 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground disabled:opacity-30 disabled:pointer-events-none active:scale-95 transition-all hover:border-border/60 hover:text-foreground"
-                >
-                  Next
-                </button>
-              </div>
-
-              <div className="sm:hidden text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40">
-                Page {currentPage} of {totalPages}
-              </div>
-            </div>
-          )}
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
 
         {/* Modals — all use AnimatePresence + ScaleIn for spring physics */}
