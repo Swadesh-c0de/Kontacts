@@ -16,6 +16,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,10 @@ export default function Register() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     setLoading(true);
     setError("");
     setSuccess("");
@@ -121,6 +126,11 @@ export default function Register() {
                 <div className="space-y-1.5">
                   <label htmlFor="reg-password" className="text-sm font-medium">Password</label>
                   <Input id="reg-password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="confirm-password" className="text-sm font-medium">Confirm Password</label>
+                  <Input id="confirm-password" type="password" placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required autoComplete="new-password" />
                 </div>
 
                 <Button type="submit" className="w-full" size="lg" disabled={loading}>
