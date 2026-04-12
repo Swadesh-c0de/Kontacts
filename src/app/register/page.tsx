@@ -33,8 +33,13 @@ export default function Register() {
     setSuccess("");
     try {
       await api.post("/users/register", { username, email, password });
-      setSuccess("Account created successfully! Redirecting...");
-      setTimeout(() => router.push("/login"), 1500);
+      setSuccess("Account created successfully! Logging you in...");
+
+      // Auto-login
+      const { data } = await api.post("/users/login", { email, password });
+      localStorage.setItem("token", data.accessToken);
+
+      setTimeout(() => router.push("/"), 1500);
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || "Registration failed. Username or email may already be in use.");
     } finally {
@@ -85,7 +90,7 @@ export default function Register() {
 
           <FadeUp delay={0.4}>
             <p className="text-xs font-bold text-primary-foreground/40 tracking-[0.2em] uppercase">
-              Project &copy; {new Date().getFullYear()}
+              SWADESH-C0DE &copy; {new Date().getFullYear()}
             </p>
           </FadeUp>
         </div>

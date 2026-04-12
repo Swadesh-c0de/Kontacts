@@ -81,7 +81,7 @@ export default function Login() {
 
           <FadeUp delay={0.4}>
             <p className="text-xs font-bold text-primary-foreground/40 tracking-[0.2em] uppercase">
-              Project &copy; {new Date().getFullYear()}
+              SWADESH-C0DE &copy; {new Date().getFullYear()}
             </p>
           </FadeUp>
         </div>
