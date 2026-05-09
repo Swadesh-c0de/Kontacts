@@ -43,12 +43,9 @@ export default function Dashboard() {
       const { data } = await api.get("/contacts");
       setContacts(data);
     } catch (err: any) {
-      if (err.response?.status === 401) {
-        localStorage.removeItem("token");
-        router.push("/login");
-      } else setError(err.response?.data?.message || "Could not load contacts.");
+      setError(err.response?.data?.message || "Could not load contacts.");
     } finally { setLoading(false); }
-  }, [router]);
+  }, []);
 
   useEffect(() => { fetchContacts(); }, [fetchContacts]);
 
@@ -117,37 +114,34 @@ export default function Dashboard() {
     return filtered.slice(start, start + CONTACTS_PER_PAGE);
   }, [filtered, currentPage]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <FadeIn>
-          <div className="flex items-center mb-6">
-            <span className="text-5xl font-cursive font-medium -ml-0.5 text-primary">Kontacts</span>
-          </div>
-          <div className="flex gap-1.5 justify-center">
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                className="w-1.5 h-1.5 rounded-full bg-foreground/20"
-                animate={{ y: [0, -6, 0] }}
-                transition={{
-                  duration: 0.6,
-                  repeat: Infinity,
-                  delay: i * 0.15,
-                  ease: [0.23, 1, 0.32, 1],
-                }}
-              />
-            ))}
-          </div>
-        </FadeIn>
-      </div>
-    );
-  }
-
   return (
     <AuthGuard>
-      <div className="min-h-screen pt-28 pb-24 relative">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+      {loading ? (
+        <div className="min-h-screen flex flex-col items-center justify-center">
+          <FadeIn>
+            <div className="flex items-center mb-6">
+              <span className="text-5xl font-cursive font-medium -ml-0.5 text-primary">Kontacts</span>
+            </div>
+            <div className="flex gap-1.5 justify-center">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-foreground/20"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{
+                    duration: 0.6,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                    ease: [0.23, 1, 0.32, 1],
+                  }}
+                />
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+      ) : (
+        <div className="min-h-screen pt-28 pb-24 relative">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
 
           {/* Header */}
           <div className="mb-8 text-center flex flex-col items-center animate-float-up" style={{ animationDelay: '0s' }}>
@@ -521,7 +515,8 @@ export default function Dashboard() {
             </div>
           )}
         </AnimatePresence>
-      </div>
-    </AuthGuard>
-  );
+        </div>
+    )}
+  </AuthGuard>
+);
 }
