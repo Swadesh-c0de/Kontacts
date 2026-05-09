@@ -38,6 +38,7 @@ Kontacts is inspired by high-end design portfolios. It prioritizes:
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with custom utility-first glassmorphism tokens.
 - **Animations**: [Framer Motion](https://framer.com/motion) (StaggerContainer, FadeUp, and Spring variants).
 - **Networking**: [Axios](https://axios-http.com/) with a specialized API wrapper for token-based authentication.
+- **CORS Bypass**: Integrated Next.js API Route Proxy to handle cross-origin requests securely in production.
 - **Icons**: [Lucide React](https://lucide.dev/) for a clean, consistent icon set.
 
 ---
@@ -47,6 +48,7 @@ Kontacts is inspired by high-end design portfolios. It prioritizes:
 ```text
 src/
 ├── app/            # Next.js App Router (Layouts, Pages, Globals)
+│   └── api/proxy/  # Server-side proxy to bypass CORS
 ├── components/     # Reusable UI & Motion primitives (Button, Input, FadeUp, etc.)
 └── lib/            # Shared utilities and API configuration
 ```
@@ -63,9 +65,12 @@ src/
    ```
 
 2. **Configure Environment:**
-   Create a `.env.local` file in the root directory:
+   Create a `.env.local` file in the root directory. 
+   > [!NOTE]
+   > We use a relative path `/api/proxy` to route requests through our server-side proxy, which avoids CORS issues in production.
+   
    ```env
-   NEXT_PUBLIC_API_URL=https://your-api-url.com/api
+   NEXT_PUBLIC_API_URL=/api/proxy
    ```
 
 3. **Launch Dev Server:**

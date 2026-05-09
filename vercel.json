@@ -3,7 +3,8 @@
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://your-api-url.com"
+    "NEXT_PUBLIC_API_URL": "/api/proxy",
+    "BACKEND_API_URL": "https://contacts-management-system-backend.vercel.app/api"
   },
   "headers": [
     {
