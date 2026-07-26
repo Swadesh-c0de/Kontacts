@@ -146,7 +146,7 @@ export default function Navbar() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1], delay: 0.15 }}
       >
-        <div className={`flex items-center justify-around w-full max-w-sm p-1.5 transition-all duration-500 ease-[cubic-bezier(0.2,1,0.3,1)] pointer-events-auto rounded-[2rem] bg-background/80 backdrop-blur-md border border-border/40 shadow-md ${scrolled ? "ring-1 ring-foreground/5" : ""}`}>
+        <div className={`flex items-center justify-around w-full max-w-sm p-1.5 transition-all duration-500 ease-[cubic-bezier(0.2,1,0.3,1)] pointer-events-auto rounded-[2rem] bg-background/95 border border-border/40 shadow-md ${scrolled ? "ring-1 ring-foreground/5" : ""}`}>
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;

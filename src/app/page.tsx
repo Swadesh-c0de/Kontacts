@@ -384,7 +384,7 @@ export default function Dashboard() {
           {addOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
               <motion.div
-                className="fixed inset-0 bg-background/60 backdrop-blur-sm"
+                className="fixed inset-0 bg-background/80"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -433,7 +433,7 @@ export default function Dashboard() {
           {editOpen && activeContact && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
               <motion.div
-                className="fixed inset-0 bg-background/60 backdrop-blur-sm"
+                className="fixed inset-0 bg-background/80"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -482,7 +482,7 @@ export default function Dashboard() {
           {deleteOpen && activeContact && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
               <motion.div
-                className="fixed inset-0 bg-background/60 backdrop-blur-sm"
+                className="fixed inset-0 bg-background/80"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

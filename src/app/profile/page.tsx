@@ -259,7 +259,7 @@ export default function Profile() {
             {editOpen && (
               <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
-                  className="fixed inset-0 bg-background/80 backdrop-blur-sm"
+                  className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -304,7 +304,7 @@ export default function Profile() {
             {passwordOpen && (
               <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
-                  className="fixed inset-0 bg-background/80 backdrop-blur-sm"
+                  className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -349,7 +349,7 @@ export default function Profile() {
             {deleteOpen && (
               <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
-                  className="fixed inset-0 bg-background/80 backdrop-blur-sm"
+                  className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}

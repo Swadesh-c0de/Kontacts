@@ -63,7 +63,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
             className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           />
         </button>
-        <div className="flex items-center gap-1.5 p-1 rounded-[1.25rem] border border-border/20 bg-secondary/10 backdrop-blur-sm">
+        <div className="flex items-center gap-1.5 p-1 rounded-[1.25rem] border border-border/20 bg-secondary/80">
           {pages.map((page, idx) => {
             if (typeof page === "string") {
               return (

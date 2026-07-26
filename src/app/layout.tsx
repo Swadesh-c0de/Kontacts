@@ -52,7 +52,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${baskerville.variable} ${dancingScript.variable} font-sans antialiased relative`}
       >
-        <div className="noise-bg" aria-hidden="true" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
