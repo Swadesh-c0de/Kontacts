@@ -29,8 +29,18 @@ export function ThemeToggle() {
 
     const buttonElement = e.currentTarget;
     const rect = buttonElement.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
+    
+    // Check if clientX/Y from click/touch event is valid and within button bounds
+    const hasValidPointer =
+      e.clientX > 0 &&
+      e.clientY > 0 &&
+      e.clientX >= rect.left &&
+      e.clientX <= rect.right &&
+      e.clientY >= rect.top &&
+      e.clientY <= rect.bottom;
+
+    const x = hasValidPointer ? e.clientX : rect.left + rect.width / 2;
+    const y = hasValidPointer ? e.clientY : rect.top + rect.height / 2;
 
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
@@ -39,9 +49,9 @@ export function ThemeToggle() {
 
     buttonElement.animate(
       [
-        { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(128,128,128,0)" },
-        { transform: "scale(1.2)", boxShadow: "0 0 15px 5px rgba(128,128,128,0.1)" },
-        { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(128,128,128,0)" }
+        { transform: "scale(1)" },
+        { transform: "scale(1.2)" },
+        { transform: "scale(1)" }
       ],
       { duration: 300, easing: "cubic-bezier(0.4, 0, 0.2, 1)" }
     );
@@ -55,20 +65,6 @@ export function ThemeToggle() {
         `circle(0px at ${x}px ${y}px)`,
         `circle(${endRadius}px at ${x}px ${y}px)`,
       ];
-
-      const shockwave = buttonElement.querySelector("#theme-shockwave") as HTMLElement;
-      if (shockwave) {
-        shockwave.animate(
-          [
-            { transform: "scale(0)", opacity: 0.5, borderWidth: "2px" },
-            { transform: `scale(${(endRadius * 2) / 40})`, opacity: 0, borderWidth: "1px" }
-          ],
-          {
-            duration: 500,
-            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-          }
-        );
-      }
 
       document.documentElement.animate(
         {
