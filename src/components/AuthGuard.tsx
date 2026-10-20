@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { isValidToken } from "@/lib/api";
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [checked, setChecked] = useState(false);
@@ -10,7 +11,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    if (!isValidToken(token)) {
+      localStorage.removeItem("token");
       router.replace("/login");
     } else {
       setChecked(true);
@@ -34,9 +36,10 @@ export function GuestGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (isValidToken(token)) {
       router.replace("/");
     } else {
+      localStorage.removeItem("token");
       setChecked(true);
     }
   }, [router]);

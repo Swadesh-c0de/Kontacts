@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { Button } from "@/components/Button";
 import { AuthGuard } from "@/components/AuthGuard";
 import { FadeUp, FadeIn, ScaleIn } from "@/components/motion";
@@ -40,7 +40,7 @@ export default function Profile() {
     try {
       const { data } = await api.get("/users/profile");
       setUser(data);
-    } catch (err: any) {
+    } catch {
       // AuthGuard handles initial check
     } finally { setLoading(false); }
   }, []);
@@ -52,7 +52,10 @@ export default function Profile() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (editOpen) setEditOpen(false);
-        if (passwordOpen) setPasswordOpen(false);
+        if (passwordOpen) {
+          setPasswordOpen(false);
+          setPasswordForm({ currentPassword: "", newPassword: "" });
+        }
         if (deleteOpen) setDeleteOpen(false);
       }
     };
@@ -98,11 +101,19 @@ export default function Profile() {
     setFormError(null);
     try {
       const { data } = await api.put("/users/profile", cleanForm);
-      setUser({ ...user, username: data.username, email: data.email } as UserProfile);
+      setUser((prev) =>
+        prev
+          ? {
+              ...prev,
+              username: data?.username || cleanForm.username,
+              email: data?.email || cleanForm.email,
+            }
+          : null
+      );
       setSuccess("Profile updated successfully!");
       setEditOpen(false);
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || err.message || "Failed to update profile.");
+    } catch (err: unknown) {
+      setFormError(getErrorMessage(err, "Failed to update profile."));
     } finally {
       setSaving(false);
     }
@@ -123,8 +134,8 @@ export default function Profile() {
       setSuccess("Password changed successfully!");
       setPasswordOpen(false);
       setPasswordForm({ currentPassword: "", newPassword: "" });
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || err.message || "Failed to change password.");
+    } catch (err: unknown) {
+      setFormError(getErrorMessage(err, "Failed to change password."));
     } finally {
       setSaving(false);
     }
@@ -139,8 +150,8 @@ export default function Profile() {
       await api.delete("/users/profile");
       localStorage.removeItem("token");
       router.push("/login");
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || err.message || "Failed to delete account.");
+    } catch (err: unknown) {
+      setFormError(getErrorMessage(err, "Failed to delete account."));
       setSaving(false);
     }
   };
@@ -372,13 +383,13 @@ export default function Profile() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  onClick={() => setPasswordOpen(false)}
+                  onClick={() => { setPasswordOpen(false); setPasswordForm({ currentPassword: "", newPassword: "" }); }}
                 />
                 <ScaleIn className="relative w-full max-w-md rounded-[2rem] border border-border/60 bg-background shadow-2xl">
                   <div className="p-6 sm:p-8">
                     <div className="flex items-center justify-between mb-6">
                       <h2 className="text-xl font-bold tracking-tight">Change Password</h2>
-                      <button type="button" onClick={() => setPasswordOpen(false)} aria-label="Close modal" className="rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors bg-secondary/50"><X className="h-4 w-4" /></button>
+                      <button type="button" onClick={() => { setPasswordOpen(false); setPasswordForm({ currentPassword: "", newPassword: "" }); }} aria-label="Close modal" className="rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors bg-secondary/50"><X className="h-4 w-4" /></button>
                     </div>
                     <form onSubmit={handlePassword} className="space-y-4">
                       {formError && (
@@ -396,7 +407,7 @@ export default function Profile() {
                         <Input className="rounded-xl h-12 px-4" type="password" value={passwordForm.newPassword} onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })} required />
                       </div>
                       <div className="flex justify-end gap-2 pt-4">
-                        <Button type="button" variant="ghost" className="rounded-xl h-11" onClick={() => setPasswordOpen(false)}>Cancel</Button>
+                        <Button type="button" variant="ghost" className="rounded-xl h-11" onClick={() => { setPasswordOpen(false); setPasswordForm({ currentPassword: "", newPassword: "" }); }}>Cancel</Button>
                         <Button type="submit" className="rounded-xl h-11 px-6" disabled={saving}>
                           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Update Password"}
                         </Button>

@@ -5,6 +5,10 @@ import { flushSync } from "react-dom";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (callback: () => void) => { ready: Promise<void> };
+};
+
 export function ThemeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
@@ -54,7 +58,7 @@ export function ThemeToggle() {
     );
 
     try {
-      const transition = (document as any).startViewTransition(() => {
+      const transition = (document as DocumentWithViewTransition).startViewTransition!(() => {
         flushSync(() => {
           setTheme(newTheme);
         });

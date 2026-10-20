@@ -73,7 +73,7 @@ async function handleRequest(request: NextRequest, pathSegments: string[]) {
       try {
         const text = new TextDecoder().decode(responseData);
         console.error(`Backend returned ${response.status}:`, text);
-      } catch (e) {
+      } catch {
         console.error(`Backend returned ${response.status} (could not decode body)`);
       }
     }
@@ -84,8 +84,8 @@ async function handleRequest(request: NextRequest, pathSegments: string[]) {
     });
 
     // Ensure all Set-Cookie headers are forwarded cleanly without being merged
-    if (typeof (response.headers as any).getSetCookie === 'function') {
-      const cookies = (response.headers as any).getSetCookie();
+    if (typeof response.headers.getSetCookie === 'function') {
+      const cookies = response.headers.getSetCookie();
       if (cookies && cookies.length > 0) {
         nextResponse.headers.delete('set-cookie');
         cookies.forEach((c: string) => nextResponse.headers.append('set-cookie', c.replace(/;\s*Domain=[^;]+/gi, '')));

@@ -6,6 +6,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { User, LayoutDashboard, Github, ExternalLink, Code2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { isValidToken } from "@/lib/api";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,10 +18,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setNavigating(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem("token"));
+    setIsAuthenticated(isValidToken(localStorage.getItem("token")));
   }, [pathname]);
 
   useEffect(() => {
@@ -70,12 +68,12 @@ export default function Navbar() {
         >
           <Link href="/" className="flex items-center group transition-all duration-300 hover:scale-105 active:scale-95" onClick={() => setNavigating(true)}>
             <div className="relative flex flex-row items-center">
-              <span className={`font-cursive font-bold -ml-0.5 text-primary/90 leading-none transition-all duration-500 ${scrolled ? "text-2xl sm:text-3xl" : "text-2xl sm:text-3xl"}`}>Kontacts</span>
+              <span className={`font-cursive font-bold -ml-0.5 text-primary/90 leading-none transition-all duration-500 text-2xl sm:text-3xl`}>Kontacts</span>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-2 animate-in fade-in zoom-in-95 duration-1000 delay-300 fill-mode-both">
+          <div className="hidden md:flex items-center gap-2 animate-in">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;

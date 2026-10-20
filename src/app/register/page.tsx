@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { getErrorMessage, isValidToken } from "@/lib/api";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { GuestGuard } from "@/components/AuthGuard";
@@ -51,11 +51,12 @@ export default function Register() {
 
       // Auto-login
       const { data } = await api.post("/users/login", { email: cleanEmail, password });
+      if (!isValidToken(data?.accessToken)) throw new Error("Invalid authentication response from server.");
       localStorage.setItem("token", data.accessToken);
 
       setTimeout(() => router.push("/"), 500);
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || "Registration failed. Username or email may already be in use.");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Registration failed. Username or email may already be in use."));
     } finally {
       setLoading(false);
     }

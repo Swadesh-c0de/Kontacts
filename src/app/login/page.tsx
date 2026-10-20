@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { getErrorMessage, isValidToken } from "@/lib/api";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { GuestGuard } from "@/components/AuthGuard";
@@ -32,12 +32,12 @@ export default function Login() {
     setSuccess("");
     try {
       const { data } = await api.post("/users/login", { email: cleanEmail, password });
+      if (!isValidToken(data?.accessToken)) throw new Error("Invalid authentication response from server.");
       localStorage.setItem("token", data.accessToken);
       setSuccess("Login successful! Redirecting...");
       setTimeout(() => router.push("/"), 400);
-    } catch (err: any) {
-      const msg = err.response?.data?.message || err.message || "Login failed. Please check your credentials.";
-      setError(msg);
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Login failed. Please check your credentials."));
     } finally {
       setLoading(false);
     }

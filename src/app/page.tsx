@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo, useDeferredValue } from "react";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { AuthGuard } from "@/components/AuthGuard";
@@ -38,9 +38,9 @@ export default function Dashboard() {
   const fetchContacts = useCallback(async () => {
     try {
       const { data } = await api.get("/contacts");
-      setContacts(data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Could not load contacts.");
+      setContacts(Array.isArray(data) ? data : []);
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Could not load contacts."));
     } finally { setLoading(false); }
   }, []);
 
@@ -63,8 +63,8 @@ export default function Dashboard() {
       setContacts((prev) => [data, ...prev]);
       setAddOpen(false);
       setForm({ name: "", email: "", phone: "" });
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || "Failed to add contact.");
+    } catch (err: unknown) {
+      setFormError(getErrorMessage(err, "Failed to add contact."));
     } finally {
       setSaving(false);
     }
@@ -88,8 +88,8 @@ export default function Dashboard() {
       setContacts((prev) => prev.map((c) => (c._id === data._id ? data : c)));
       setEditOpen(false);
       setActiveContact(null);
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || "Failed to update contact.");
+    } catch (err: unknown) {
+      setFormError(getErrorMessage(err, "Failed to update contact."));
     } finally {
       setSaving(false);
     }
@@ -103,8 +103,8 @@ export default function Dashboard() {
       setContacts((prev) => prev.filter((c) => c._id !== activeContact._id));
       setDeleteOpen(false);
       setActiveContact(null);
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || "Failed to delete contact.");
+    } catch (err: unknown) {
+      setFormError(getErrorMessage(err, "Failed to delete contact."));
     } finally {
       setSaving(false);
     }
@@ -147,9 +147,9 @@ export default function Dashboard() {
     if (deferredSearch) {
       const q = deferredSearch.toLowerCase();
       result = contacts.filter((c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.email.toLowerCase().includes(q) ||
-        c.phone.includes(deferredSearch)
+        (c.name || "").toLowerCase().includes(q) ||
+        (c.email || "").toLowerCase().includes(q) ||
+        (c.phone || "").includes(deferredSearch)
       );
     }
 
@@ -227,7 +227,7 @@ export default function Dashboard() {
                     onChange={(e) => setSearch(e.target.value)}
                   />
                   {search && !isSearching && (
-                    <button onClick={() => setSearch("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/30 hover:text-foreground transition-all duration-300 active:scale-95">
+                    <button onClick={() => setSearch("")} aria-label="Clear search" className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/30 hover:text-foreground transition-all duration-300 active:scale-95">
                       <X className="h-4 w-4" />
                     </button>
                   )}

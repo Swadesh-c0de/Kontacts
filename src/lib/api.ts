@@ -17,10 +17,26 @@ const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue = [];
 };
 
+export function getErrorMessage(err: unknown, fallback: string): string {
+  if (axios.isAxiosError(err)) {
+    const serverMsg = (err.response?.data as { message?: string } | undefined)?.message;
+    if (typeof serverMsg === "string" && serverMsg.trim()) return serverMsg;
+    if (typeof err.message === "string" && err.message.trim()) return err.message;
+  }
+  if (err instanceof Error && err.message.trim()) {
+    return err.message;
+  }
+  return fallback;
+}
+
+export function isValidToken(token: string | null): token is string {
+  return Boolean(token && token !== "undefined" && token !== "null");
+}
+
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
-    if (token && token !== "undefined" && token !== "null") {
+    if (isValidToken(token)) {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
