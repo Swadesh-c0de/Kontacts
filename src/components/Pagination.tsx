@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 interface PaginationProps {
@@ -11,9 +11,9 @@ interface PaginationProps {
 }
 
 export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
-  if (totalPages <= 1) return null;
-
   const pages = useMemo(() => {
+    if (totalPages <= 1) return [];
+
     const items = [];
     const showMax = 5;
 
@@ -42,6 +42,8 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
     return items;
   }, [currentPage, totalPages]);
 
+  if (totalPages <= 1) return null;
+
   return (
     <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 animate-float-up" style={{ animationDelay: '0.2s' }}>
       <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40 hidden sm:block">
@@ -64,7 +66,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           />
         </button>
         <div className="flex items-center gap-1.5 p-1 rounded-[1.25rem] border border-border/20 bg-secondary/80">
-          {pages.map((page, idx) => {
+          {pages.map((page) => {
             if (typeof page === "string") {
               return (
                 <div key={page} className="w-8 h-10 flex items-center justify-center text-muted-foreground/30">
@@ -80,6 +82,8 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                 key={page}
                 onClick={() => onPageChange(page)}
                 className={`relative h-10 w-10 rounded-xl text-xs font-bold transition-all duration-500 overflow-hidden ${isActive ? "text-background" : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"}`}
+                aria-label={`Page ${page}`}
+                aria-current={isActive ? "page" : undefined}
               >
                 <span className="relative z-10">{page}</span>
                 {isActive && (

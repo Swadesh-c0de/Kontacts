@@ -30,10 +30,10 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 }
 
 async function handleRequest(request: NextRequest, pathSegments: string[]) {
-  const path = pathSegments.join('/');
+  const path = pathSegments.map(encodeURIComponent).join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
-  let backendBaseUrl = process.env.BACKEND_API_URL || 'https://contacts-management-system-backend.vercel.app/api';
+  let backendBaseUrl = (process.env.BACKEND_API_URL || 'https://contacts-management-system-backend.vercel.app/api').replace(/\/+$/, '');
   if (backendBaseUrl.startsWith('http://') && backendBaseUrl.includes('vercel.app')) {
     backendBaseUrl = backendBaseUrl.replace('http://', 'https://');
   }
@@ -41,6 +41,7 @@ async function handleRequest(request: NextRequest, pathSegments: string[]) {
 
   const headers = new Headers(request.headers);
   headers.delete('host'); 
+  headers.delete('connection');
   if (['GET', 'HEAD'].includes(request.method)) {
     headers.delete('content-length');
   }
@@ -61,6 +62,7 @@ async function handleRequest(request: NextRequest, pathSegments: string[]) {
     
     responseHeaders.delete('content-encoding');
     responseHeaders.delete('transfer-encoding');
+    responseHeaders.delete('content-length');
 
     // Security headers
     responseHeaders.set('X-Content-Type-Options', 'nosniff');
@@ -86,7 +88,7 @@ async function handleRequest(request: NextRequest, pathSegments: string[]) {
       const cookies = (response.headers as any).getSetCookie();
       if (cookies && cookies.length > 0) {
         nextResponse.headers.delete('set-cookie');
-        cookies.forEach((c: string) => nextResponse.headers.append('set-cookie', c));
+        cookies.forEach((c: string) => nextResponse.headers.append('set-cookie', c.replace(/;\s*Domain=[^;]+/gi, '')));
       }
     }
 

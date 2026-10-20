@@ -18,7 +18,7 @@
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
-    --destructive: 210 40% 40%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
@@ -42,8 +42,8 @@
     --muted-foreground: 240 5% 55%;
     --accent: 240 4% 14%;
     --accent-foreground: 0 0% 95%;
-    --destructive: 210 100% 75%;
-    --destructive-foreground: 240 6% 10%;
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 0 0% 98%;
     --border: 240 4% 16%;
     --input: 240 4% 16%;
     --ring: 240 4.9% 83.9%;
@@ -84,12 +84,23 @@
   }
 }
 
+@keyframes animateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @layer utilities {
 
-  .animate-in {
+  .animate-in,
+  .animate-float-up {
     animation: animateIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-
 
   /* Clean, high-performance glass component without heavy GPU backdrop-blur filters */
   .glass {

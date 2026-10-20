@@ -72,7 +72,7 @@ export default function Register() {
         <div className="lg:hidden flex flex-col items-center justify-center py-12 px-6 bg-primary text-primary-foreground text-center space-y-4">
           <FadeIn delay={0}>
             <Link href="/" className="flex items-center drop-shadow-lg">
-              <span className="text-5xl font-cursive font-medium -ml-1 text-secondary drop-shadow-[0_0_15px_rgba(var(--secondary),0.5)]">Kontacts</span>
+              <span className="text-5xl font-cursive font-medium -ml-1 text-secondary drop-shadow-[0_0_15px_hsl(var(--secondary)/0.5)]">Kontacts</span>
             </Link>
           </FadeIn>
           <FadeIn delay={0.1} className="space-y-1">
@@ -89,7 +89,7 @@ export default function Register() {
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
           >
             <Link href="/" className="relative z-10 flex items-center drop-shadow-2xl">
-              <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_25px_rgba(var(--secondary),0.4)]">Kontacts</span>
+              <span className="text-5xl font-cursive font-medium -ml-0.5 text-secondary drop-shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">Kontacts</span>
             </Link>
           </motion.div>
 

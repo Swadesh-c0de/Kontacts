@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "/api/proxy",
   withCredentials: true,
   timeout: 20000,
   headers: {
@@ -20,7 +20,7 @@ const processQueue = (error: unknown, token: string | null = null) => {
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token && token !== "undefined" && token !== "null") {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
@@ -38,7 +38,8 @@ api.interceptors.response.use(
 
     const isAuthRoute = originalRequest.url?.includes("/users/login") || 
                         originalRequest.url?.includes("/users/register") || 
-                        originalRequest.url?.includes("/users/refresh");
+                        originalRequest.url?.includes("/users/refresh") ||
+                        originalRequest.url?.includes("/users/logout");
 
     // Handle 401 with refresh token logic
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthRoute) {
@@ -56,7 +57,10 @@ api.interceptors.response.use(
 
       try {
         const { data } = await api.post("/users/refresh");
-        const newToken = data.accessToken;
+        const newToken = data?.accessToken;
+        if (!newToken || typeof newToken !== "string") {
+          throw new Error("Invalid refresh token");
+        }
         
         if (typeof window !== "undefined") {
           localStorage.setItem("token", newToken);

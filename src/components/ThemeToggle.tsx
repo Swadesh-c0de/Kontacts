@@ -107,12 +107,6 @@ export function ThemeToggle() {
             }`}
         />
       </div>
-
-      <div
-        id="theme-shockwave"
-        className="absolute pointer-events-none rounded-full border border-foreground/10 opacity-0 scale-0 z-0"
-        style={{ width: '40px', height: '40px' }}
-      />
     </button>
   );
 }

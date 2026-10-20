@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo, useDeferredValue } from "react";
-import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { AuthGuard } from "@/components/AuthGuard";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeUp, StaggerContainer, StaggerItem, ScaleIn, FadeIn } from "@/components/motion";
-import { Plus, Search, Mail, Phone, Loader2, User, UserPlus, SearchX, X, Pencil, Trash2, LayoutGrid, List, AlertCircle, ArrowUpDown } from "lucide-react";
+import { Plus, Search, Mail, Phone, Loader2, UserPlus, SearchX, X, Pencil, Trash2, LayoutGrid, List, AlertCircle, ArrowUpDown } from "lucide-react";
 import { Pagination } from "@/components/Pagination";
 
 interface Contact {
@@ -36,8 +35,6 @@ export default function Dashboard() {
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
   const [saving, setSaving] = useState(false);
 
-  const router = useRouter();
-
   const fetchContacts = useCallback(async () => {
     try {
       const { data } = await api.get("/contacts");
@@ -63,7 +60,7 @@ export default function Dashboard() {
     setSaving(true);
     try {
       const { data } = await api.post("/contacts", cleanForm);
-      setContacts([data, ...contacts]);
+      setContacts((prev) => [data, ...prev]);
       setAddOpen(false);
       setForm({ name: "", email: "", phone: "" });
     } catch (err: any) {
@@ -88,7 +85,7 @@ export default function Dashboard() {
     setSaving(true);
     try {
       const { data } = await api.put(`/contacts/${activeContact._id}`, cleanForm);
-      setContacts(contacts.map((c) => (c._id === data._id ? data : c)));
+      setContacts((prev) => prev.map((c) => (c._id === data._id ? data : c)));
       setEditOpen(false);
       setActiveContact(null);
     } catch (err: any) {
@@ -103,7 +100,7 @@ export default function Dashboard() {
     setSaving(true);
     try {
       await api.delete(`/contacts/${activeContact._id}`);
-      setContacts(contacts.filter((c) => c._id !== activeContact._id));
+      setContacts((prev) => prev.filter((c) => c._id !== activeContact._id));
       setDeleteOpen(false);
       setActiveContact(null);
     } catch (err: any) {
@@ -127,6 +124,14 @@ export default function Dashboard() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [addOpen, editOpen, deleteOpen]);
+
+  // Lock background scroll when modals are open
+  useEffect(() => {
+    document.body.style.overflow = (addOpen || editOpen || deleteOpen) ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [addOpen, editOpen, deleteOpen]);
 
   // Deferred search: input stays snappy, card list catches up
@@ -250,12 +255,14 @@ export default function Dashboard() {
                     <button
                       onClick={() => setView("grid")}
                       className={`h-8 px-3 rounded-full text-xs font-bold transition-all duration-300 ${view === "grid" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                      aria-label="Grid view"
                     >
                       <LayoutGrid className="h-3.5 w-3.5" />
                     </button>
                     <button
                       onClick={() => setView("list")}
                       className={`h-8 px-3 rounded-full text-xs font-bold transition-all duration-300 ${view === "list" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                      aria-label="List view"
                     >
                       <List className="h-3.5 w-3.5" />
                     </button>
@@ -513,7 +520,7 @@ export default function Dashboard() {
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-5">
                       <h2 className="text-lg font-bold tracking-tight">New Contact</h2>
-                      <button onClick={() => setAddOpen(false)} className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"><X className="h-4 w-4" /></button>
+                      <button onClick={() => setAddOpen(false)} aria-label="Close modal" className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"><X className="h-4 w-4" /></button>
                     </div>
                     <form onSubmit={handleAdd} className="space-y-3.5">
                       {formError && (
@@ -556,13 +563,13 @@ export default function Dashboard() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  onClick={() => setEditOpen(false)}
+                  onClick={() => { setEditOpen(false); setActiveContact(null); }}
                 />
                 <ScaleIn className="relative w-full max-w-md rounded-2xl border border-border/60 bg-card shadow-xl">
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-5">
                       <h2 className="text-lg font-bold tracking-tight">Edit Contact</h2>
-                      <button onClick={() => setEditOpen(false)} className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"><X className="h-4 w-4" /></button>
+                      <button onClick={() => { setEditOpen(false); setActiveContact(null); }} aria-label="Close modal" className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"><X className="h-4 w-4" /></button>
                     </div>
                     <form onSubmit={handleEdit} className="space-y-3.5">
                       {formError && (
@@ -584,7 +591,7 @@ export default function Dashboard() {
                         <Input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
                       </div>
                       <div className="flex justify-end gap-2 pt-2">
-                        <Button type="button" variant="ghost" onClick={() => setEditOpen(false)}>Cancel</Button>
+                        <Button type="button" variant="ghost" onClick={() => { setEditOpen(false); setActiveContact(null); }}>Cancel</Button>
                         <Button type="submit" disabled={saving}>
                           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
                         </Button>
@@ -605,7 +612,7 @@ export default function Dashboard() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  onClick={() => setDeleteOpen(false)}
+                  onClick={() => { setDeleteOpen(false); setActiveContact(null); }}
                 />
                 <ScaleIn className="relative w-full max-w-sm rounded-2xl border border-border/60 bg-card shadow-xl text-center">
                   <div className="p-6">
@@ -623,8 +630,8 @@ export default function Dashboard() {
                       </FadeIn>
                     )}
                     <div className="flex justify-center gap-2">
-                      <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
-                      <Button variant="outline" onClick={handleDelete} disabled={saving}>
+                      <Button variant="outline" onClick={() => { setDeleteOpen(false); setActiveContact(null); }}>Cancel</Button>
+                      <Button variant="destructive" onClick={handleDelete} disabled={saving}>
                         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete"}
                       </Button>
                     </div>

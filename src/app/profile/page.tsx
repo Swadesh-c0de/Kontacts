@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { Button } from "@/components/Button";
 import { AuthGuard } from "@/components/AuthGuard";
-import { FadeUp, FadeIn, StaggerContainer, StaggerItem, ScaleIn } from "@/components/motion";
+import { FadeUp, FadeIn, ScaleIn } from "@/components/motion";
 import { Input } from "@/components/Input";
 import { AnimatePresence, motion } from "framer-motion";
-import { LogOut, Mail, ShieldCheck, Loader2, User, Calendar, Hash, Fingerprint, X, Key, Pencil, Trash2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { LogOut, Mail, ShieldCheck, Loader2, User, X, Key, Pencil, Trash2, AlertCircle, CheckCircle2 } from "lucide-react";
 
 interface UserProfile {
   username: string;
@@ -58,6 +58,14 @@ export default function Profile() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editOpen, passwordOpen, deleteOpen]);
+
+  // Lock background scroll when modals are open
+  useEffect(() => {
+    document.body.style.overflow = (editOpen || passwordOpen || deleteOpen) ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [editOpen, passwordOpen, deleteOpen]);
 
   const handleLogout = async () => {
@@ -138,14 +146,6 @@ export default function Profile() {
   };
 
   const initial = user?.username?.charAt(0)?.toUpperCase() || "U";
-  const profileDetails = [
-    { label: "Username", value: user?.username || "—", icon: User },
-    { label: "Email Address", value: user?.email || "—", icon: Mail },
-    { label: "User ID", value: user?.id || "—", icon: Hash, mono: true },
-    { label: "Account Status", value: "Verified & Secured", icon: ShieldCheck },
-    { label: "Security", value: "JWT-authenticated session", icon: Fingerprint },
-    { label: "Member Since", value: "2026", icon: Calendar },
-  ];
 
   return (
     <AuthGuard>
@@ -333,7 +333,7 @@ export default function Profile() {
                   <div className="p-6 sm:p-8">
                     <div className="flex items-center justify-between mb-6">
                       <h2 className="text-xl font-bold tracking-tight">Edit Profile</h2>
-                      <button type="button" onClick={() => setEditOpen(false)} className="rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors bg-secondary/50"><X className="h-4 w-4" /></button>
+                      <button type="button" onClick={() => setEditOpen(false)} aria-label="Close modal" className="rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors bg-secondary/50"><X className="h-4 w-4" /></button>
                     </div>
                     <form onSubmit={handleEdit} className="space-y-4">
                       {formError && (
@@ -378,7 +378,7 @@ export default function Profile() {
                   <div className="p-6 sm:p-8">
                     <div className="flex items-center justify-between mb-6">
                       <h2 className="text-xl font-bold tracking-tight">Change Password</h2>
-                      <button type="button" onClick={() => setPasswordOpen(false)} className="rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors bg-secondary/50"><X className="h-4 w-4" /></button>
+                      <button type="button" onClick={() => setPasswordOpen(false)} aria-label="Close modal" className="rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors bg-secondary/50"><X className="h-4 w-4" /></button>
                     </div>
                     <form onSubmit={handlePassword} className="space-y-4">
                       {formError && (
