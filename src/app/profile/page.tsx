@@ -331,7 +331,7 @@ export default function Profile() {
           {/* Modals */}
           <AnimatePresence>
             {editOpen && (
-              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <div role="dialog" aria-modal="true" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
                   className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
@@ -354,12 +354,12 @@ export default function Profile() {
                         </FadeIn>
                       )}
                       <div className="space-y-2">
-                        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Username</label>
-                        <Input className="rounded-xl h-12 px-4" value={editForm.username} onChange={(e) => setEditForm({ ...editForm, username: e.target.value })} required autoFocus />
+                        <label htmlFor="edit-username" className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Username</label>
+                        <Input id="edit-username" className="rounded-xl h-12 px-4" value={editForm.username} onChange={(e) => setEditForm({ ...editForm, username: e.target.value })} required autoFocus />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Email</label>
-                        <Input className="rounded-xl h-12 px-4" type="email" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} required />
+                        <label htmlFor="edit-email" className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Email</label>
+                        <Input id="edit-email" className="rounded-xl h-12 px-4" type="email" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} required />
                       </div>
                       <div className="flex justify-end gap-2 pt-4">
                         <Button type="button" variant="ghost" className="rounded-xl h-11" onClick={() => setEditOpen(false)}>Cancel</Button>
@@ -376,7 +376,7 @@ export default function Profile() {
 
           <AnimatePresence>
             {passwordOpen && (
-              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <div role="dialog" aria-modal="true" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
                   className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
@@ -399,12 +399,12 @@ export default function Profile() {
                         </FadeIn>
                       )}
                       <div className="space-y-2">
-                        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Current Password</label>
-                        <Input className="rounded-xl h-12 px-4" type="password" value={passwordForm.currentPassword} onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })} required autoFocus />
+                        <label htmlFor="current-password" className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Current Password</label>
+                        <Input id="current-password" className="rounded-xl h-12 px-4" type="password" value={passwordForm.currentPassword} onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })} required autoFocus />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">New Password</label>
-                        <Input className="rounded-xl h-12 px-4" type="password" value={passwordForm.newPassword} onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })} required />
+                        <label htmlFor="new-password" className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">New Password</label>
+                        <Input id="new-password" className="rounded-xl h-12 px-4" type="password" value={passwordForm.newPassword} onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })} required />
                       </div>
                       <div className="flex justify-end gap-2 pt-4">
                         <Button type="button" variant="ghost" className="rounded-xl h-11" onClick={() => { setPasswordOpen(false); setPasswordForm({ currentPassword: "", newPassword: "" }); }}>Cancel</Button>
@@ -421,7 +421,7 @@ export default function Profile() {
 
           <AnimatePresence>
             {deleteOpen && (
-              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <div role="dialog" aria-modal="true" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
                   className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}

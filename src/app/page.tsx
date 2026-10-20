@@ -507,7 +507,7 @@ export default function Dashboard() {
 
           <AnimatePresence>
             {addOpen && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center p-4">
                 <motion.div
                   className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
@@ -530,16 +530,16 @@ export default function Dashboard() {
                         </FadeIn>
                       )}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</label>
-                        <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jane Doe" required autoFocus />
+                        <label htmlFor="add-name" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</label>
+                        <Input id="add-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jane Doe" required autoFocus />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</label>
-                        <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jane@example.com" required />
+                        <label htmlFor="add-email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</label>
+                        <Input id="add-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jane@example.com" required />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Phone</label>
-                        <Input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+1 555 000 0000" required />
+                        <label htmlFor="add-phone" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Phone</label>
+                        <Input id="add-phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+1 555 000 0000" required />
                       </div>
                       <div className="flex justify-end gap-2 pt-2">
                         <Button type="button" variant="ghost" onClick={() => setAddOpen(false)}>Cancel</Button>
@@ -556,7 +556,7 @@ export default function Dashboard() {
 
           <AnimatePresence>
             {editOpen && activeContact && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center p-4">
                 <motion.div
                   className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}
@@ -579,16 +579,16 @@ export default function Dashboard() {
                         </FadeIn>
                       )}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</label>
-                        <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required autoFocus />
+                        <label htmlFor="edit-name" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</label>
+                        <Input id="edit-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required autoFocus />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</label>
-                        <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+                        <label htmlFor="edit-email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</label>
+                        <Input id="edit-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Phone</label>
-                        <Input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
+                        <label htmlFor="edit-phone" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Phone</label>
+                        <Input id="edit-phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
                       </div>
                       <div className="flex justify-end gap-2 pt-2">
                         <Button type="button" variant="ghost" onClick={() => { setEditOpen(false); setActiveContact(null); }}>Cancel</Button>
@@ -605,7 +605,7 @@ export default function Dashboard() {
 
           <AnimatePresence>
             {deleteOpen && activeContact && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center p-4">
                 <motion.div
                   className="fixed inset-0 bg-background/80"
                   initial={{ opacity: 0 }}

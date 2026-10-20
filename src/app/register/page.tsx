@@ -50,14 +50,18 @@ export default function Register() {
       setSuccess("Account created successfully! Logging you in...");
 
       // Auto-login
-      const { data } = await api.post("/users/login", { email: cleanEmail, password });
-      if (!isValidToken(data?.accessToken)) throw new Error("Invalid authentication response from server.");
-      localStorage.setItem("token", data.accessToken);
+      try {
+        const { data } = await api.post("/users/login", { email: cleanEmail, password });
+        if (!isValidToken(data?.accessToken)) throw new Error("Invalid authentication response from server.");
+        localStorage.setItem("token", data.accessToken);
 
-      setTimeout(() => router.push("/"), 500);
+        setTimeout(() => router.push("/"), 500);
+      } catch {
+        setSuccess("");
+        router.push("/login");
+      }
     } catch (err: unknown) {
       setError(getErrorMessage(err, "Registration failed. Username or email may already be in use."));
-    } finally {
       setLoading(false);
     }
   };

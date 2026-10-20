@@ -38,7 +38,6 @@ export default function Login() {
       setTimeout(() => router.push("/"), 400);
     } catch (err: unknown) {
       setError(getErrorMessage(err, "Login failed. Please check your credentials."));
-    } finally {
       setLoading(false);
     }
   };
